@@ -59,7 +59,7 @@ app.get('/reset', async (req, res) => {
         }
     })
 
-    res.send("A Planila voltou aos valores padroes")
+    res.send("A Planilha voltou aos valores padroes")
 })
 
 function calcularSituacao(matrix) {
