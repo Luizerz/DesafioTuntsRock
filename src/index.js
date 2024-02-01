@@ -43,7 +43,7 @@ app.get('/calcularSituacao', async (req, res) => {
         }
     })
 
-    res.send(updateValue)
+    res.send("Os dados dos alunos foram calculados, observe a planilha")
 })
 
 app.get('/reset', async (req, res) => {
@@ -59,7 +59,7 @@ app.get('/reset', async (req, res) => {
         }
     })
 
-    res.send(updateValue)
+    res.send("A Planila voltou aos valores padroes")
 })
 
 function calcularSituacao(matrix) {
