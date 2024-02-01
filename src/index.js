@@ -25,29 +25,6 @@ async function getAuthSheets() {
     }
 }
 
-app.get("/metadata", async (req, res) => {
-    const {googleSheets, auth, spreadsheetId} = await getAuthSheets()
-
-    const metadata = await googleSheets.spreadsheets.get({
-        auth,
-        spreadsheetId
-    })
-
-    res.send(metadata.data)
-})
-
-// app.get('/verSituacao', async (req, res) => {
-//     const {googleSheets, auth, spreadsheetId} = await getAuthSheets()
-
-//     const getRows = await googleSheets.spreadsheets.values.get({
-//         auth: auth,
-//         spreadsheetId: spreadsheetId,
-//         range: 'engenharia_de_software!A3:H100'
-//     })
-//     const values = calcularSituacao(getRows.data.values)
-//     res.send(values)
-// })
-
 app.get('/calcularSituacao', async (req, res) => {
 
     const {googleSheets, auth, spreadsheetId} = await getAuthSheets()
@@ -92,12 +69,12 @@ function calcularSituacao(matrix) {
         const media = calcularMedia(matrix[index])
         const reprovouPorFalta = calcularFaltas(matrix[index][2])
         if (reprovouPorFalta) {
-           auxArr.push(['Reprovou por Falta', 0])
+           auxArr.push(['Reprovado por Falta', 0])
         } else if (media < 50) {
-            auxArr.push(['Reprovou por Media', 0])
+            auxArr.push(['Reprovado por Nota', 0])
         } else if (media >= 50 && media < 70) {
             const notaNecessaria = calcularAF(media)
-            auxArr.push(['Ficou de AF', notaNecessaria])
+            auxArr.push(['Exame Final', notaNecessaria])
         } else {
             auxArr.push(['Aprovado', 0])
         }
@@ -123,4 +100,4 @@ function calcularAF(media) {
     return Math.ceil(100 - Number(media))
 }
 
-app.listen(3000, () => console.log('running on port 3000'))
+app.listen(process.env.PORT || 3000, () => console.log('Aplication now is running'))
